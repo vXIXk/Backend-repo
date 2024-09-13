@@ -1,3 +1,4 @@
+const createError = require("http-errors");
 const { task } = require("./../model");
 
 module.exports.getAllTasks = (req, res) => {
@@ -9,7 +10,7 @@ module.exports.getAllTasks = (req, res) => {
     res.status(200).send(gotTasks);
 };
 
-module.exports.getTask = (req, res) => {
+module.exports.getTask = (req, res, next) => {
     const {
         params: { id },
     } = req;
@@ -17,7 +18,7 @@ module.exports.getTask = (req, res) => {
     const gotTask = task.getTask(id);
     gotTask
         ? res.status(200).send(gotTask)
-        : res.status(404).send(`Element not found`);
+        : next(createError(404, "Element not found"));
 };
 
 module.exports.createTask = (req, res) => {
@@ -27,7 +28,7 @@ module.exports.createTask = (req, res) => {
     res.status(201).send(createdTask);
 };
 
-module.exports.updateTask = (req, res) => {
+module.exports.updateTask = (req, res, next) => {
     const {
         params: { id },
         body,
@@ -36,10 +37,10 @@ module.exports.updateTask = (req, res) => {
     const updatedTask = task.updateTask(id, body);
     updatedTask
         ? res.status(200).send(updatedTask)
-        : res.status(404).send(`Element not found`);
+        : next(createError(404, "Element not found"));
 };
 
-module.exports.deleteTask = (req, res) => {
+module.exports.deleteTask = (req, res, next) => {
     const {
         params: { id },
     } = req;
@@ -47,5 +48,5 @@ module.exports.deleteTask = (req, res) => {
     const deletedTask = task.deleteTask(id);
     deletedTask
         ? res.status(204).send()
-        : res.status(404).send(`Element not found`);
+        : next(createError(404, "Element not found"));
 };

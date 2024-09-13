@@ -1,13 +1,13 @@
-### 200
+### 200 Successfully get all tasks
 GET http://localhost:5000/tasks?page=1&results=10
 
-### 200
+### 200 Successfully get a task by ID
 GET http://localhost:5000/tasks/10
 
-### 404
+### 404 Unsuccessfully get a non-existent task
 GET http://localhost:5000/tasks/0
 
-### 201
+### 201 Successfully create a new task
 POST http://localhost:5000/tasks HTTP/1.1
 Content-Type: application/json
 
@@ -15,7 +15,15 @@ Content-Type: application/json
       "body": "Update all the apps"
 }
 
-### 200
+###422 Unsuccessfully create a task that's too short
+POST http://localhost:5000/tasks HTTP/1.1
+Content-Type: application/json
+
+{
+      "body": "Upd"
+}
+
+### 200 Successfully edit a task by ID
 PATCH http://localhost:5000/tasks/10
 Content-Type: application/json
 
@@ -23,7 +31,15 @@ Content-Type: application/json
       "body": "Touch up the to-do list"
 }
 
-### 404
+###422 Unsuccessfully edit a task by ID
+PATCH http://localhost:5000/tasks/5 HTTP/1.1
+Content-Type: application/json
+
+{
+      "body": "Upd"
+}
+
+### 404 Unsuccessfully edit a non-existent task
 PATCH http://localhost:5000/tasks/0
 Content-Type: application/json
 
@@ -31,8 +47,8 @@ Content-Type: application/json
       "body": "Touch up the to-do list"
 }
 
-### 204
+### 204 Successfully delete a task by ID
 DELETE http://localhost:5000/tasks/10
 
-### 404
+### 404 Unsuccessfully delete a non-existent task
 DELETE http://localhost:5000/tasks/0
